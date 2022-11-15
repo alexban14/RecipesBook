@@ -1,4 +1,6 @@
-# PrjShoppingList
+# RecipesBookApp
+
+RecipesBook app where you can store all of your favourite food recipes and shop their ingredients.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
 
