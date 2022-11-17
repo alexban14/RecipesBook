@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 
 export interface AuthResponseData {
@@ -18,9 +19,9 @@ export interface AuthResponseData {
   providedIn: 'root'
 })
 export class AuthService {
-  // APIkey = 'AIzaSyDhpqZlU0qIKe8ZiJMtGnYQPVQhZZzYTX0';
-  signUpURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDhpqZlU0qIKe8ZiJMtGnYQPVQhZZzYTX0';
-  loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDhpqZlU0qIKe8ZiJMtGnYQPVQhZZzYTX0';
+  APIkey = environment.firebaseAPIKey;
+  signUpURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.APIkey;
+  loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.APIkey;
 
   // also gives subscribers acces to the previous emitted value
   user = new BehaviorSubject<User>(null);
