@@ -83,6 +83,8 @@ export class AuthService {
       new Date(userData._tokenExpirationDate)
     );
 
+    console.log(loadedUser);
+
     if(loadedUser.token) {
       this.user.next(loadedUser);
       const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
