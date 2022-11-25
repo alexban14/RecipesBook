@@ -1,9 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, take, tap, exhaustMap } from 'rxjs/operators';
-import { AuthService } from '../auth/auth.service';
+import { Store } from '@ngrx/store';
+import { map, tap } from 'rxjs/operators';
 import { Recipe } from '../recipe/recipe.model';
 import { RecipeService } from '../recipe/recipe.service';
+import * as fromApp from '../store/app.reducer';
+import * as RecipeActions from '../recipe/store/recipe.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import { RecipeService } from '../recipe/recipe.service';
 export class DataStorageService {
   firebaseURL = 'https://ng-recipebook-b2c43-default-rtdb.europe-west1.firebasedatabase.app/recipes.json';
 
-  constructor(private recipeService: RecipeService, private http: HttpClient, private authService: AuthService) { }
+  constructor(private recipeService: RecipeService, private http: HttpClient, private store: Store<fromApp.AppState>) { }
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
@@ -30,7 +32,10 @@ export class DataStorageService {
         });
       }),
       // alows us to execute some code without altering the data that is flowing thru the observable
-      tap(recipes => this.recipeService.setRecipes(recipes))
+      tap(recipes => {
+        // this.recipeService.setRecipes(recipes)
+        this.store.dispatch(new RecipeActions.SetRecipes(recipes))
+      })
     );
   }
 }
