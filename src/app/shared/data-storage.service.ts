@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, tap } from 'rxjs/operators';
 import { Recipe } from '../recipe/recipe.model';
-import { RecipeService } from '../recipe/recipe.service';
 import * as fromApp from '../store/app.reducer';
 import * as RecipeActions from '../recipe/store/recipe.actions';
 
@@ -13,10 +12,10 @@ import * as RecipeActions from '../recipe/store/recipe.actions';
 export class DataStorageService {
   firebaseURL = 'https://ng-recipebook-b2c43-default-rtdb.europe-west1.firebasedatabase.app/recipes.json';
 
-  constructor(private recipeService: RecipeService, private http: HttpClient, private store: Store<fromApp.AppState>) { }
+  constructor(private http: HttpClient, private store: Store<fromApp.AppState>) { }
 
   storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
+    const recipes = this.store.dispatch(new RecipeActions.FetchRecipes());
     this.http.put(this.firebaseURL, recipes)
       .subscribe(response => console.log(response));
   }
