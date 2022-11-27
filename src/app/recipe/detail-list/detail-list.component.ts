@@ -21,7 +21,8 @@ export class DetailListComponent implements OnInit {
 
   ngOnInit(): void {
     // const id = this.route.snapshot.params['id'];
-    this.route.params.pipe(
+    this.route.params
+    .pipe(
       map(params => {
         return +params['id']; 
       }),
@@ -32,11 +33,12 @@ export class DetailListComponent implements OnInit {
         return recipesState.recipes.find((recipe, index) => {
           return index === this.id;
         });
-      }))
-      .subscribe(recipe => {
-          this.recipe = recipe;
-          console.log(recipe);
-      });
+      })
+    )
+    .subscribe(recipe => {
+        this.recipe = recipe;
+        console.log(recipe);
+    });
   }
 
   onAddToShoppingList() {
